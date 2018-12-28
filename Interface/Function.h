@@ -8,6 +8,8 @@
 #include <vector>
 #include <cmath>
 #include <string>
+#include <limits>
+#include "../Implementation/Point.h"
 
 using namespace std;
 
@@ -26,6 +28,23 @@ public:
         for(double& g : grad)
             sum += g*g;
         return sqrt(sum);
+    }
+    Point<double, double> getMinValueOnRange(double start, double end, double step, int xIndex)//Finds min value on [start; end]. Freezes all variables but xIndex.
+    {
+        double minValue = MAXFLOAT, minX = NAN, currentValue;
+        vector<double> x = getXes();
+        for(double currentX = start; currentX <= end; currentX += step) // NOLINT(cert-flp30-c)
+        {
+            x[xIndex] = currentX;
+            setXes(x);
+            currentValue = evaluate();
+            if(currentValue < minValue)
+            {
+                minValue = currentValue;
+                minX = currentX;
+            }
+        }
+        return { minX, minValue };
     }
 };
 

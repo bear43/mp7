@@ -9,6 +9,7 @@
 #define DEFAULT_RANGE 10.0
 
 #include "Function.h"
+#include "../Implementation/Point.h"
 
 class Researcher
 {
@@ -17,7 +18,7 @@ protected:
     double eps;
     double range;
 public:
-    virtual double getFunctionMinimum() = 0;
+    virtual Point<double, double> getFunctionMinimum() = 0;
     Researcher(Function& function, double eps, double range) : function(function), eps(eps), range(range)
     {}
     Researcher(Function& function, double eps) : Researcher(function, eps, DEFAULT_RANGE)

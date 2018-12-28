@@ -24,7 +24,7 @@ MyFunction::MyFunction(double x1, double x2, double x3) : x1(x1), x2(x2), x3(x3)
 
 vector<double> MyFunction::getXes()
 {
-    return vector<double> {x1, x3, x3};
+    return vector<double> {x1, x2, x3};
 }
 
 void MyFunction::setXes(vector<double>& xes)

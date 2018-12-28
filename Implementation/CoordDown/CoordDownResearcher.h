@@ -6,6 +6,7 @@
 #define UNTITLED1_MYRESEARCHER_H
 
 #include "../../Interface/FunctionResearcher.h"
+#include "../Point.h"
 #include <vector>
 
 class CoordDownResearcher : Researcher
@@ -15,7 +16,7 @@ public:
 
     explicit CoordDownResearcher(Function &function);
 
-    double getFunctionMinimum() override;
+    Point<double, double> getFunctionMinimum() override;
 
 };
 

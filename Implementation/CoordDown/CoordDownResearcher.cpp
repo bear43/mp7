@@ -6,7 +6,7 @@
 
 #define LAMBDA_MULTIPLER 2
 #define LAMBDA_DIVISIONER 2
-#define DEFAULT_LAMBDA 1.0
+#define DEFAULT_LAMBDA 0.01
 
 CoordDownResearcher::CoordDownResearcher(Function &function, double eps) : Researcher(function, eps)
 {}
@@ -14,71 +14,25 @@ CoordDownResearcher::CoordDownResearcher(Function &function, double eps) : Resea
 CoordDownResearcher::CoordDownResearcher(Function &function) : Researcher(function)
 {}
 
-double CoordDownResearcher::getFunctionMinimum()
+Point<double, double> CoordDownResearcher::getFunctionMinimum()
 {
-    double min, lambda = DEFAULT_LAMBDA, current;
-    int currentXindex = 0;
-    bool changeSignFlag = false;
-    vector<double> xes = function.getXes();
-    vector<double> fx, tmpfx;
-    fx.push_back(function.evaluate());
-    tmpfx.push_back(fx[0]);
-    while(fx.size() < xes.size() + 1 || abs(fx[fx.size()-2] - fx[fx.size()-1]) >= eps)
+    double min, lambda = DEFAULT_LAMBDA;
+    vector<Point<double, double>> points;
+    Point<double, double> currentPoint;
+    vector<double> x = function.getXes();
+    vector<double> startX = function.getXes();
+    do
     {
-        if(currentXindex < xes.size())
+        points.clear();
+        for(int xIndex = 0; xIndex < x.size(); xIndex++)
         {
-            xes[currentXindex] += lambda;
-            if(xes[currentXindex] > range || xes[currentXindex] < -range)
-            {
-                xes[currentXindex] -= lambda;
-                changeSignFlag = false;
-                currentXindex++;
-                lambda /= LAMBDA_DIVISIONER;
-                range *= 2;
-                fx.push_back(function.evaluate());
-            }
-            else
-            {
-                function.setXes(xes);
-                current = function.evaluate();
-                if (current < tmpfx[tmpfx.size() - 1])
-                {
-                    tmpfx.push_back(function.evaluate());
-                }
-                else if (current == tmpfx[tmpfx.size() - 1])
-                {
-                    lambda *= LAMBDA_MULTIPLER;
-                }
-                else
-                {
-                    if (changeSignFlag)
-                    {
-                        changeSignFlag = false;
-                        xes[currentXindex] -= lambda;
-                        currentXindex++;
-                        if (tmpfx.size() >= 2)
-                            tmpfx.erase(tmpfx.begin(), tmpfx.end() - 1);
-                        fx.push_back(tmpfx[0]);
-                    }
-                    else
-                    {
-                        lambda = -lambda;
-                        xes[currentXindex] += lambda;
-                        changeSignFlag = true;
-                    }
-                }
-            }
-
+            currentPoint = (function.getMinValueOnRange(-range, range, lambda, xIndex));
+            points.push_back(currentPoint);
+            x[xIndex] = currentPoint.pos;
+            function.setXes(x);
         }
-        else
-        {
-            currentXindex = 0;
-            lambda /= LAMBDA_DIVISIONER;
-            tmpfx.clear();
-            tmpfx.push_back(fx[fx.size()-1]);
-        }
-    }
-    function.setXes(xes);
-    min = fx[fx.size()-1];
-    return min;
+        lambda /= LAMBDA_DIVISIONER;
+    } while(abs(points[points.size()-2].value - points[points.size()-1].value) > eps &&
+    points[points.size()-2].pos - points[points.size()-1].pos != 0);
+    return currentPoint;
 }
