@@ -9,14 +9,14 @@
 #include "../Point.h"
 #include <vector>
 
-class CoordDownResearcher : Researcher
+class CoordDownResearcher : public Researcher
 {
 public:
     CoordDownResearcher(Function &function, double eps);
 
     explicit CoordDownResearcher(Function &function);
 
-    Point<double, double> getFunctionMinimum() override;
+    double getFunctionMinimum() override;
 
 };
 

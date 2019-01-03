@@ -6,7 +6,7 @@
 
 #define LAMBDA_MULTIPLER 2
 #define LAMBDA_DIVISIONER 2
-#define DEFAULT_LAMBDA 0.01
+#define DEFAULT_LAMBDA 1
 
 CoordDownResearcher::CoordDownResearcher(Function &function, double eps) : Researcher(function, eps)
 {}
@@ -14,9 +14,9 @@ CoordDownResearcher::CoordDownResearcher(Function &function, double eps) : Resea
 CoordDownResearcher::CoordDownResearcher(Function &function) : Researcher(function)
 {}
 
-Point<double, double> CoordDownResearcher::getFunctionMinimum()
+double CoordDownResearcher::getFunctionMinimum()
 {
-    double min, lambda = DEFAULT_LAMBDA;
+    double lambda = DEFAULT_LAMBDA;
     vector<Point<double, double>> points;
     Point<double, double> currentPoint;
     vector<double> x = function.getXes();
@@ -34,5 +34,5 @@ Point<double, double> CoordDownResearcher::getFunctionMinimum()
         lambda /= LAMBDA_DIVISIONER;
     } while(abs(points[points.size()-2].value - points[points.size()-1].value) > eps &&
     points[points.size()-2].pos - points[points.size()-1].pos != 0);
-    return currentPoint;
+    return currentPoint.value;
 }

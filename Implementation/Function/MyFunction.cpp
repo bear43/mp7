@@ -43,3 +43,19 @@ string MyFunction::toString()
     ss << "x1 = " << x1 << " x2 = " << x2 << " x3 = " << x3;
     return ss.str();
 }
+
+void MyFunction::reset()
+{
+    x1 = 0;
+    x2 = 0;
+    x3 = 0;
+}
+
+double MyFunction::evaluateDerivative()
+{
+    /*
+    values.push_back((10*x1)-(4*x2) - 1);
+    values.push_back((-4*x1) + (10*x2));
+    values.push_back(-1);*/
+    return 6*(x1) ;
+}

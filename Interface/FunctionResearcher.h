@@ -18,7 +18,8 @@ protected:
     double eps;
     double range;
 public:
-    virtual Point<double, double> getFunctionMinimum() = 0;
+    virtual ~Researcher() = default;
+    virtual double getFunctionMinimum() = 0;
     Researcher(Function& function, double eps, double range) : function(function), eps(eps), range(range)
     {}
     Researcher(Function& function, double eps) : Researcher(function, eps, DEFAULT_RANGE)

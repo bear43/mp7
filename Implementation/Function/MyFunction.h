@@ -30,6 +30,10 @@ public:
 
     string toString() override;
 
+    void reset() override;
+
+    double evaluateDerivative() override;
+
 };
 
 
